@@ -2,7 +2,7 @@
 
 import sys
 import pickle
-sys.path.append("../tools/")
+# sys.path.append("../tools/")
 
 from feature_format import featureFormat, targetFeatureSplit
 from tester import dump_classifier_and_data
@@ -60,9 +60,9 @@ def get_metrics(info_values):
 # loop through all features to look for interesting/complete ones
 for key in keys:
     # list comprehension; key value of each person who has an informational (non-zero, non-NaN) value of key
-
     # info_values = [my_dataset[person][key] for person in my_dataset.keys() \
     #     if (my_dataset[person][key] != 0) and (my_dataset[person][key] != 'NaN')]
+    
     poi_counter = 0
     all_info_values, other_info_values, poi_info_values = [], [], []
     for person in my_dataset.keys():
@@ -76,16 +76,16 @@ for key in keys:
 
     num_info = len(all_info_values)   # keep track of how mnay informational values there are
     percent_info = round(num_info/total_persons*100,1)   # calculate percent of values are informational
-    # print "\t{0}: {1} == {2}%".format(key, num_info, percent_info)
-    # print "\t\tnumber of POIs present:", poi_counter
+    print "\t{0}: {1} == {2}%".format(key, num_info, percent_info)
+    print "\t\tnumber of POIs present:", poi_counter
 
-    # print key's quartiles if at least X% of the keys are informational
-    # if percent_info > 65:
-    #     for info in [('ALL', all_info_values), ('OTHER', other_info_values), ('POI', poi_info_values)]:
-            # print "\t\t%s" % info[0]
-            # print get_metrics(info[1])
+    print key's quartiles if at least X% of the keys are informational
+    if percent_info > 65:
+        for info in [('ALL', all_info_values), ('OTHER', other_info_values), ('POI', poi_info_values)]:
+            print "\t\t%s" % info[0]
+            print get_metrics(info[1])
 
-# print "\n"
+print "\n"
 
 """The most important attributes we look for in our features are the inclusion of
 informational values for the the majority of the POIs and others from the data.
@@ -100,7 +100,7 @@ salary, exercised_stock_options, and total_stock_value (log?)."""
 ### Extract features and labels from dataset for local testing
 data = featureFormat(my_dataset, features_list, sort_keys = True)
 labels, features = targetFeatureSplit(data)
-# print '==========HERE WE ARE=============\n', labels[:10], features[:10]
+
 
 ##################### feature creation ############################
 ###################################################################
@@ -125,19 +125,7 @@ pca = PCA(n_components=5).fit(features_train)
 pca_features_train = pca.transform(features_train)
 pca_features_test = pca.transform(features_test)
 print pca.explained_variance_ratio_
-# # print pca.components_
-# # param_grid = {
-# #          'C': [1e3, 5e3, 1e4, 5e4, 1e5],
-# #           'gamma': [0.0001, 0.0005, 0.001, 0.005, 0.01, 0.1],
-# #           }
-# # for sklearn version 0.16 or prior, the class_weight parameter value is 'auto'
-# # clf = GridSearchCV(SVC(kernel='rbf', class_weight='balanced'), param_grid)
-# clf = SVC(C=1000.0, cache_size=200, class_weight='balanced', coef0=0.0,
-#   decision_function_shape='ovr', degree=3, gamma=0.0001, kernel='rbf',
-#   max_iter=-1, probability=False, random_state=None, shrinking=True,
-#   tol=0.001, verbose=False)
 
-# kf.get_n_splits()
 """I am getting vastly different score, precision and recall scores for my clf,
 and so I am going to use KFolds to run multiple iteration and then average them.
 I will next try and find supervised PCA to implement.
