@@ -79,7 +79,7 @@ for key in keys:
     print "\t{0}: {1} == {2}%".format(key, num_info, percent_info)
     print "\t\tnumber of POIs present:", poi_counter
 
-    print key's quartiles if at least X% of the keys are informational
+    # print key's quartiles if at least X% of the keys are informational
     if percent_info > 65:
         for info in [('ALL', all_info_values), ('OTHER', other_info_values), ('POI', poi_info_values)]:
             print "\t\t%s" % info[0]
